@@ -1,0 +1,9 @@
+image:
+  file: .docker/gitpod/Dockerfile
+
+vscode:
+  extensions:
+    - leanprover.lean
+
+tasks:
+  - init: pip3 install -r scripts/requirements.txt
