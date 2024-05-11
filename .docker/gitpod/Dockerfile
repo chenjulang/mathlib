@@ -6,7 +6,7 @@ FROM ubuntu:jammy
 
 USER root
 
-RUN sudo apt install git curl python3 python3-pip python3-venv
+RUN apt-get update && apt-get install sudo git curl git bash-completion python3 python3-pip -y && apt-get clean
 
 RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod \
     # passwordless sudo for users in the 'sudo' group
@@ -20,7 +20,7 @@ SHELL ["/bin/bash", "-c"]
 RUN { echo && echo "PS1='\[\033[01;32m\]\u\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\]\$(__git_ps1 \" (%s)\") $ '" ; } >> .bashrc
 
 # # install elan
-RUN curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+# RUN curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
 
 # # install whichever toolchain mathlib is currently using
 # RUN . ~/.profile && elan toolchain install $(curl https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain)
@@ -31,7 +31,7 @@ RUN sudo apt install wget
 RUN sudo wget --version
 
 # 一键安装
-# RUN wget -q https://raw.githubusercontent.com/leanprover-community/mathlib-tools/master/scripts/install_debian.sh && bash install_debian.sh ; rm -f install_debian.sh && source ~/.profile
+RUN wget -q https://raw.githubusercontent.com/leanprover-community/mathlib-tools/master/scripts/install_debian.sh && bash install_debian.sh ; rm -f install_debian.sh && source ~/.profile
 
 ENV PATH="/home/gitpod/.local/bin:/home/gitpod/.elan/bin:${PATH}"
 
